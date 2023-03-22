@@ -91,7 +91,10 @@ const App: FC = () => {
   }, speed);
 
   return (
-    <div className="App">
+    <div className="App" style={{
+      textAlign: "center"
+    }}>
+      <h1>Game of Life</h1>
         <div
           style={{
             display: "grid",
