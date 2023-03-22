@@ -1,8 +1,7 @@
 import React, { FC, useCallback, useRef, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import useInterval from './useInterval';
-
+import Slider from '@mui/material/Slider';
 const numRows = 25;
 const numCols = 35;
 
@@ -34,11 +33,19 @@ const App: FC = () => {
   const [grid, setGrid] = useState(() => {return randomTiles()});
   const [running, setRunning] = useState(false);
   const [generation, setGeneration] = useState(0);
+  const [speed, setSpeed] = useState(250);
+  const [slider, setSlider] = useState(50);
 
 
   const runningRef = useRef(running);
   runningRef.current = running;
 
+  const handleSpeedChange = (value: any) => {
+    setSlider(value);
+    setSpeed(5 * (100 - value));
+  }
+  
+  
   const runSimulation = useCallback((grid: number[][], generation: number) => {
     if(!runningRef.current) {
       return;
@@ -143,6 +150,19 @@ const App: FC = () => {
         Clear board
       </button>
       <p>Generation: {`${generation}`}</p>
+      <div style={{
+        width: "12em",
+        display: "inline-block",
+      }}>
+        <p>Speed</p>
+        <Slider
+        aria-label="Temperature"
+        color="primary"
+        value={slider}
+        onChange={(e: any) => handleSpeedChange(e.target.value)}
+      />
+      </div>
+      
     </div>
   );
 }
