@@ -18,7 +18,16 @@ const randomTiles = () => {
   return rows;
 }
 
-
+const emptyTiles = () => {
+  const rows: number[][] = [];
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array<number>());
+    for (let j = 0; j < numCols; j++) {
+      rows[i].push(0);
+    }
+  }
+  return rows;
+}
 
 
 const App: FC = () => {
@@ -114,6 +123,14 @@ const App: FC = () => {
         }}
       >
         Random
+      </button>
+      <button
+        onClick={() => {
+          setGrid(emptyTiles())
+          setRunning(false);
+        }}
+      >
+        Clear board
       </button>
     </div>
   );
