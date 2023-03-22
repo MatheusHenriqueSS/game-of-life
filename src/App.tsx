@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useRef, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import useInterval from './useInterval';
 
 const numRows = 25;
 const numCols = 35;
@@ -31,6 +32,7 @@ const App: FC = () => {
     if(!runningRef.current) {
       return;
     }
+
     //copy grid
     let gridCopy = grid.map((row) => row.slice());
     for (let i = 0; i < numRows; i++) {
@@ -61,7 +63,11 @@ const App: FC = () => {
     }
 
     setGrid(gridCopy);
-  }, [])
+  }, []);
+
+  useInterval(() => {
+    runSimulation(grid);
+  }, 150);
 
   return (
     <div className="App">
@@ -98,9 +104,6 @@ const App: FC = () => {
         onClick={() => {
           setRunning(!running);
           runningRef.current = !running;
-          setInterval(() => {
-            runSimulation(grid);
-          }, 1000);
         }}
       >
         {running ? "Stop": "Start"}
