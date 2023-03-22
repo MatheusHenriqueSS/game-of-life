@@ -33,19 +33,23 @@ const emptyTiles = () => {
 const App: FC = () => {
   const [grid, setGrid] = useState(() => {return randomTiles()});
   const [running, setRunning] = useState(false);
+  const [generation, setGeneration] = useState(0);
+
 
   const runningRef = useRef(running);
   runningRef.current = running;
 
-  const runSimulation = useCallback((grid: number[][]) => {
+  const runSimulation = useCallback((grid: number[][], generation: number) => {
     if(!runningRef.current) {
       return;
     }
 
     //copy grid
     let gridCopy = grid.map((row) => row.slice());
+    let alive = 0;
     for (let i = 0; i < numRows; i++) {
       for (let j = 0; j < numCols; j++) {
+        alive += gridCopy[i][j];
         //calculate neighbours
 
         let neighbours= 0;
@@ -70,13 +74,14 @@ const App: FC = () => {
 
       }
     }
-
+    if(!alive)setRunning(false);
+    setGeneration(generation + 1);
     setGrid(gridCopy);
   }, []);
 
   useInterval(() => {
-    runSimulation(grid);
-  }, 150);
+    runSimulation(grid, generation);
+  }, speed);
 
   return (
     <div className="App">
@@ -93,6 +98,8 @@ const App: FC = () => {
               <div
                 key={`${i}-${k}`}
                 onClick={() => {
+                  if(runningRef.current)return;
+                  setGeneration(0);
                   // copy array
                   let newGrid = grid.map((row) => row.slice());  
                   //invert tile value
@@ -120,6 +127,8 @@ const App: FC = () => {
       <button
         onClick={() => {
           setGrid(randomTiles())
+          setGeneration(0);
+          setRunning(false);
         }}
       >
         Random
@@ -128,10 +137,12 @@ const App: FC = () => {
         onClick={() => {
           setGrid(emptyTiles())
           setRunning(false);
+          setGeneration(0);
         }}
       >
         Clear board
       </button>
+      <p>Generation: {`${generation}`}</p>
     </div>
   );
 }
