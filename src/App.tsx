@@ -100,10 +100,17 @@ const App: FC = () => {
           runningRef.current = !running;
           setInterval(() => {
             runSimulation(grid);
-          })
+          }, 1000);
         }}
       >
         {running ? "Stop": "Start"}
+      </button>
+      <button
+        onClick={() => {
+          setGrid(randomTiles())
+        }}
+      >
+        Random
       </button>
     </div>
   );
