@@ -1,4 +1,6 @@
 ## React Game of Life
+![image](https://user-images.githubusercontent.com/46387641/226821646-bbb55197-2bed-4a6f-9ff7-b1212a24163e.png)
+
 This project is an implementation of Conway's Game of Life using React.
 
 The Game of Life is a cellular automaton devised by the British mathematician John Horton Conway in 1970. The game is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves.
